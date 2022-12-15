@@ -12,7 +12,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd crc/MyApp/tests
-          python3 -m pip install --upgrade pip
+          python -m pip install
           pip install -r requirements.txt
       - name: Run tests with pytest
         env:
