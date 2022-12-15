@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  cloud-resume-challenge
+
+  Sample SAM Template for cloud-resume-challenge
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+
+Resources:
+
+  MyWebsite:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: www.thabeloramabulana.com
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Join
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref MyWebsite 
+                - /*
+      Bucket: !Ref MyWebsite   
+
+  MyDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        ViewerCertificate:
+          AcmCertificateArn: !Ref MyCertificates
+          SslSupportMethod: sni-only
+        Aliases:
+          - www.thabeloramabulana.com  
+        DefaultCacheBehavior:
+          ViewerProtocolPolicy: redirect-to-https
+          TargetOriginId: www.thabeloramabulana.com.s3-website-us-east-1.amazonaws.com
+          DefaultTTL: 0
+          MinTTL: 0
+          MaxTTL: 0
+          ForwardedValues:
+            QueryString: false
+        Origins: 
+          - DomainName: www.thabeloramabulana.com.s3-website-us-east-1.amazonaws.com
+            Id: www.thabeloramabulana.com.s3-website-us-east-1.amazonaws.com
+            CustomOriginConfig:
+              OriginProtocolPolicy: http-only
+        Enabled: "true"
+        DefaultRootObject: index.html  
+      
+  MyCertificates:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: www.thabeloramabulana.com
+      ValidationMethod: DNS
+
+  MyRoute53Record:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneId: Z01034193TL6IZ0RGMDYQ
+      RecordSets:
+        - Name: www.thabeloramabulana.com
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt MyDistribution.DomainName
+  
+  DemoDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: CRC-table
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: "ID"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "ID"
+          KeyType: "HASH"
+  
+
+  MyFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: CRC-table
+      CodeUri: function/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        Visits:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /visit
+            Method: post     
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  
+  MyFunctionApi:
+    Description: "API Gateway endpoint URL for Prod stage for MyFunction"
+    Value: !Sub "https://5g0ost55y9.execute-api.us-east-1.amazonaws.com/Prod/hello/"
+  
+  MyFunction:
+    Description: "MyFunction ARN"
+    Value: !GetAtt MyFunction.Arn
+  MyFunctionIamRole:
+    Description: "Implicit IAM Role created for MyFunction"
+    Value: !GetAtt MyFunctionRole.Arn
