@@ -119,7 +119,7 @@ Outputs:
   
   MyFunctionApi:
     Description: "API Gateway endpoint URL for Prod stage for MyFunction"
-    Value: !Sub "https://5g0ost55y9.execute-api.us-east-1.amazonaws.com/Prod/hello/"
+    Value: !Sub "https://5g0ost55y9.execute-api.us-east-1.amazonaws.com/Prod/visit/"
   
   MyFunction:
     Description: "MyFunction ARN"
