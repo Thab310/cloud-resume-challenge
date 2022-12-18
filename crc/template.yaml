@@ -100,7 +100,7 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: CRC-table
-      CodeUri: MyApp/
+      CodeUri: MyApp/function/
       Handler: app.lambda_handler
       Runtime: python3.9
       Architectures:
