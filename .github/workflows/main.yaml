@@ -26,7 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: aws-actions/setup-sam@v1
-        python-version: 3.9
+        with: 
+          python-version: 3.9
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
