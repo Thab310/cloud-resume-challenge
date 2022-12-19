@@ -7,7 +7,7 @@ My website portfolio that has my resume in it, built using AWS resources. Inspir
 All services were configured and provisioned using AWS SAM IaC, from the beginning. I started by building 3 services in the AWS Console before realizing it would be better for to do it all in IaC from the start.
 # How the project works
 
-Github actions workflow is used to automatically provision all resources for the website on AWS on a code change to the default branch on this respository.
+Github actions workflow is used to automatically provision all resources (CI/CD) for the website on AWS on a code change to the default branch on this respository.
 
 # High level description of functionality
 * S3 bucket hosts the website
