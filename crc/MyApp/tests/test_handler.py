@@ -1,6 +1,5 @@
 import os
 import re
-import json
 from unittest import mock
 
 from function import app
