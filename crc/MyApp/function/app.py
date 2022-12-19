@@ -28,5 +28,5 @@ def lambda_handler(event, context):
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': '*'
         },
-        'body': json.dumps({visit_count})
+        'body': json.dumps(int({visit_count}))
     }
