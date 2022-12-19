@@ -14,6 +14,7 @@ def test_lambda_handler():
     assert "AWS_ACCESS_KEY_ID" in os.environ
     assert "AWS_SECRET_ACCESS_KEY" in os.environ
 
+    # Call the lambda_handler function
     ret = app.lambda_handler("", "")
 
     # Assert return keys
@@ -28,9 +29,9 @@ def test_lambda_handler():
 
     # Check status code
     if ret["statusCode"] == 200:
-        assert "visit_count" in json.loads(ret["body"])
-        assert json.loads(ret["body"])["visit_count"].isnumeric()
+        assert isinstance(ret["body"], str)
+        assert ret["body"].isnumeric()
     else:
-        assert json.loads(ret["body"])["visit_count"] == -1
+        assert ret["body"] == -1
 
     return
