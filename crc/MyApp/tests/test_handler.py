@@ -28,7 +28,7 @@ def test_lambda_handler():
 
     # Check status code
     if ret["statusCode"] == 200:
-        assert "visit_count" in ret["body"]
+        assert "visit_count" in json.loads(ret["body"])
         assert json.loads(ret["body"])["visit_count"].isnumeric()
     else:
         assert json.loads(ret["body"])["visit_count"] == -1
