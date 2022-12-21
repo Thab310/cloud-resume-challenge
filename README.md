@@ -16,3 +16,8 @@ Github actions workflow is used to automatically provision all resources (CI/CD)
 * DynamoDB and Lambda function used to implement visitor counter.
 * JS used to retreive counter value from API and display on site
 * APIGateway used to implement an API endpoint
+
+# Challenges encountered
+
+1. Sam deploy was not working because I was not choosing the run time that matched my system's runtime `(python3.9)`
+
