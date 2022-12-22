@@ -21,4 +21,4 @@ Github actions workflow is used to automatically provision all resources (CI/CD)
 # Challenges encountered
 
 1. Sam deploy was not working because I was not choosing the run time that matched my system's runtime `(python3.9)`
-
+2. My biggest challenge was a silly one to say the least. It took me a long time to figure out why my build and deploy test was failing, I was getting a code URI error.I finally found out that I didnt use the correct URI path.
