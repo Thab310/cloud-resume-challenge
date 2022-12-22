@@ -24,4 +24,4 @@ Github actions workflow is used to automatically provision all resources (CI/CD)
 2. My biggest challenge was a silly one to say the least. It took me a long time to figure out why my build and deploy test was failing, I was getting a `code uri error` from my `template.yaml` file. I finally found out that I didnt use the correct URI path.
 
 # What I could have done better
-1. Use SAM CLI + AWS Toolkits to my function locally before actually deploying it live.
+1. Use SAM CLI + AWS Toolkits to test my function locally before actually deploying it live.
