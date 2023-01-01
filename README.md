@@ -25,3 +25,7 @@ Github actions workflow is used to automatically provision all resources (CI/CD)
 
 # What I could have done better
 1. Use SAM CLI + AWS Toolkits to test my function locally before actually deploying it live.
+
+# What I learned
+
+1. It is better to keep your aws credentials in "github action secrets" rather than in my code for security reasons.
